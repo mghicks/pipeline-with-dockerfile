@@ -9,7 +9,7 @@ podTemplate(label: 'docker',
   node('docker') {
     stage('Docker outside of Docker check') {
       container('docker') {
-        sh "docker version"
+        sh "docker version; docker ps"
       }
     }
   }
