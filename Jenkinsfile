@@ -21,17 +21,17 @@ pipeline {
   agent {
     kubernetes {
       label 'declarative-docker'
-      podTemplate:
-      - containerTemplate {
-          name: 'docker'
-          image: 'docker:1.11'
-          ttyEnabled: true
-          command: 'cat'
+      podTemplate {
+        containerTemplate {
+          name 'docker'
+          image 'docker:1.11'
+          ttyEnabled true
+          command 'cat'
         }
-        volumes:
-        - hostPathVolume {
-            mountPath: '/var/run/docker.sock'
-            hostPath: '/var/run/docker.sock'
+        volumes {
+          hostPathVolume {
+            mountPath '/var/run/docker.sock'
+            hostPath '/var/run/docker.sock'
           }
         }
       }
