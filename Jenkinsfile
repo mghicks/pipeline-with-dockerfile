@@ -21,29 +21,20 @@ pipeline {
   agent {
     kubernetes {
       label 'declarative-docker'
-      yaml """
-apiVersion: v1
-kind: Pod
-metadata:
-  name: buildPod
-  labels:
-    app: buildPod
-spec:
-  containers:
-  - name: docker-build
-    image: docker:1.11
-    tty: true
-    command:
-    - cat
-    volumeMounts:
-    - mountPath: /var/run/docker.sock
-      name: docker-socket
-  volumes:
-  - name: docker-socket
-    hostPath:
-      path: /var/run/docker.sock
-      type: File
-"""
+      podTemplate:
+      - containerTemplate {
+          name: 'docker'
+          image: 'docker:1.11'
+          ttyEnabled: true
+          command: 'cat'
+        }
+        volumes:
+        - hostPathVolume {
+            mountPath: '/var/run/docker.sock'
+            hostPath: '/var/run/docker.sock'
+          }
+        }
+      }
     }
   }
   stages {
