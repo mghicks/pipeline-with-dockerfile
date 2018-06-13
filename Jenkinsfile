@@ -1,5 +1,5 @@
 
-
+/*
 podTemplate(label: 'docker',
   containers: [containerTemplate(name: 'docker', image: 'docker:1.11', ttyEnabled: true, command: 'cat')],
   volumes: [hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock')]
@@ -14,33 +14,18 @@ podTemplate(label: 'docker',
     }
   }
 }
+*/
 
-
-/*
 pipeline {
   agent {
-    kubernetes {
-      label 'declarative-docker'
-      podTemplate {
-        containerTemplate {
-          name 'docker'
-          image 'docker:1.11'
-          ttyEnabled true
-          command 'cat'
-        }
-        volumes {
-          hostPathVolume {
-            mountPath '/var/run/docker.sock'
-            hostPath '/var/run/docker.sock'
-          }
-        }
-      }
+    docker { 
+      image 'docker:1.11'
+      args '-v /var/run/docker.sock:/var/run/docker.sock'
     }
   }
   stages {
     stage('Docker outside of Docker check') {
       steps {
-        container('docker-build')
         sh 'docker version'
       }
     }
