@@ -19,7 +19,7 @@ podTemplate(label: 'docker',
 pipeline {
   agent {
     docker { 
-      image 'docker:1.11'
+      image 'docker'
       args '-v /var/run/docker.sock:/var/run/docker.sock'
     }
   }
